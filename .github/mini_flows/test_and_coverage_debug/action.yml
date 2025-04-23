@@ -84,3 +84,18 @@ runs:
       with:
         name: JacocoReportDebug-clevertap-pushtemplates
         path: clevertap-pushtemplates/build/reports/jacoco
+
+    - name: JacocoGithubReport
+      uses: madrapps/jacoco-report@v1.7.1
+      with:
+          paths: |
+            clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
+          token: ${{ secrets.PR_TOKEN }}
+          min-coverage-overall: 48
+          min-coverage-changed-files: 85
+          title: Code Coverage
+          update-comment: true
+          pass-emoji: ':green_circle:'
+          fail-emoji: ':red_circle:'

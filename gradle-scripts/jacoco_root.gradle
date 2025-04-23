@@ -63,6 +63,7 @@ def createVariantCoverage(variant) {
 
         reports {
             html.required = true
+            xml.required = true
         }
 
         def javaClasses = fileTree(dir: variant.javaCompileProvider.get().destinationDir, excludes: project.excludes)
