@@ -92,7 +92,7 @@ runs:
             clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
             clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
             clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
-          token: ${{ secrets.PR_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 48
           min-coverage-changed-files: 85
           title: Code Coverage
