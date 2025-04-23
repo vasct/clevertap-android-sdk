@@ -46,7 +46,6 @@ public class CTInAppNotificationButton implements Parcelable {
     CTInAppNotificationButton() {
     }
 
-    @SuppressWarnings("unchecked")
     protected CTInAppNotificationButton(Parcel in) {
         text = in.readString();
         textColor = in.readString();
