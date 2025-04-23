@@ -1,3 +1,7 @@
+inputs:
+  github-token:
+    description: 'Github token to post jacoco report in PR comment'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -92,7 +96,7 @@ runs:
             clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
             clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
             clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ inputs.github-token }}
           min-coverage-overall: 48
           min-coverage-changed-files: 85
           title: Code Coverage
