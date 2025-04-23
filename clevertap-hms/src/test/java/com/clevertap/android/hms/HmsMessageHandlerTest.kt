@@ -86,4 +86,23 @@ class HmsMessageHandlerTest : BaseTestCase() {
             Assert.assertFalse(mHandlerCT.onNewToken(application, HMS_TOKEN))
         }
     }
+
+    @Test
+    fun testProcessPushAmp_callsProcessPushNotification() {
+        val bundle = Bundle()
+        `when`(parser.toBundle(any(RemoteMessage::class.java))).thenReturn(bundle)
+        mockStatic(CleverTapAPI::class.java).use { ctApiStaticMock ->
+            mHandlerCT.processPushAmp(application, RemoteMessage(bundle))
+            ctApiStaticMock.verify {
+                CleverTapAPI.processPushNotification(application, bundle)
+            }
+        }
+    }
+
+    @Test
+    fun testProcessPushAmp_catchesParserExceptions() {
+        val bundle = Bundle()
+        `when`(parser.toBundle(any(RemoteMessage::class.java))).thenThrow(RuntimeException())
+        mHandlerCT.processPushAmp(application, RemoteMessage(bundle))
+    }
 }
