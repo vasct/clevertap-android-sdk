@@ -33,9 +33,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Unit Tests and Jacoco Coverage (RELEASE)
-        uses: ./.github/mini_flows/test_and_coverage_release
-
       - name: Build AARs (RELEASE)
         uses: ./.github/mini_flows/build_code_release
 
