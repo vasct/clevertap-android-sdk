@@ -3,11 +3,13 @@ package com.clevertap.android.sdk.inapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.RestrictTo.Scope;
+
 import com.clevertap.android.sdk.Constants;
-import java.util.HashMap;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 @RestrictTo(Scope.LIBRARY)
@@ -27,23 +29,25 @@ public class CTInAppNotificationButton implements Parcelable {
         }
     };
 
-    private String backgroundColor;
+    private final String backgroundColor;
 
-    private String borderColor;
+    private final String borderColor;
 
-    private String borderRadius;
+    private final String borderRadius;
 
-    private String error;
+    private final String text;
 
-    private JSONObject jsonDescription;
+    private final String textColor;
 
-    private String text;
+    private final CTInAppAction action;
 
-    private String textColor;
-
-    private CTInAppAction action;
-
-    CTInAppNotificationButton() {
+    CTInAppNotificationButton(@NonNull JSONObject jsonObject) {
+        text = jsonObject.optString(Constants.KEY_TEXT);
+        textColor = jsonObject.optString(Constants.KEY_COLOR, Constants.BLUE);
+        backgroundColor = jsonObject.optString(Constants.KEY_BG, Constants.WHITE);
+        borderColor = jsonObject.optString(Constants.KEY_BORDER, Constants.WHITE);
+        borderRadius = jsonObject.optString(Constants.KEY_RADIUS);
+        action = CTInAppAction.createFromJson(jsonObject.optJSONObject(Constants.KEY_ACTIONS));
     }
 
     protected CTInAppNotificationButton(Parcel in) {
@@ -52,22 +56,12 @@ public class CTInAppNotificationButton implements Parcelable {
         backgroundColor = in.readString();
         borderColor = in.readString();
         borderRadius = in.readString();
-        try {
-            jsonDescription = in.readByte() == 0x00 ? null : new JSONObject(in.readString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        error = in.readString();
         action = in.readParcelable(CTInAppAction.class.getClassLoader());
     }
 
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    public HashMap<String, String> getKeyValues() {
-        return action != null ? action.getKeyValues() : null;
     }
 
     @Override
@@ -77,13 +71,6 @@ public class CTInAppNotificationButton implements Parcelable {
         dest.writeString(backgroundColor);
         dest.writeString(borderColor);
         dest.writeString(borderRadius);
-        if (jsonDescription == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeString(jsonDescription.toString());
-        }
-        dest.writeString(error);
         dest.writeParcelable(action, flags);
     }
 
@@ -100,10 +87,6 @@ public class CTInAppNotificationButton implements Parcelable {
         return borderRadius;
     }
 
-    String getError() {
-        return error;
-    }
-
     public String getText() {
         return text;
     }
@@ -114,17 +97,5 @@ public class CTInAppNotificationButton implements Parcelable {
 
     public CTInAppAction getAction() {
         return action;
-    }
-
-    CTInAppNotificationButton initWithJSON(JSONObject jsonObject) {
-        jsonDescription = jsonObject;
-        text = jsonObject.optString(Constants.KEY_TEXT);
-        textColor = jsonObject.optString(Constants.KEY_COLOR, Constants.BLUE);
-        backgroundColor = jsonObject.optString(Constants.KEY_BG, Constants.WHITE);
-        borderColor = jsonObject.optString(Constants.KEY_BORDER, Constants.WHITE);
-        borderRadius = jsonObject.optString(Constants.KEY_RADIUS);
-        action = CTInAppAction.createFromJson(jsonObject.optJSONObject(Constants.KEY_ACTIONS));
-
-        return this;
     }
 }

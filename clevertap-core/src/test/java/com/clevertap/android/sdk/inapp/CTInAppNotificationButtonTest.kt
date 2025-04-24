@@ -1,19 +1,17 @@
 package com.clevertap.android.sdk.inapp
 
 import android.os.Parcel
-import com.clevertap.android.shared.test.BaseTestCase
+import com.clevertap.android.shared.test.RobolectricTest
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class CTInAppNotificationButtonTest: BaseTestCase() {
+class CTInAppNotificationButtonTest: RobolectricTest() {
 
     @Test
-    fun `initWithJson should parse json objects into field values`() {
-        val button = CTInAppNotificationButton()
-        val json = JSONObject(buttonJson)
-        button.initWithJSON(json)
+    fun `Constructor should parse json objects into field values`() {
+        val button = CTInAppNotificationButton(JSONObject(buttonJson))
 
         assertEquals(TEXT, button.text)
         assertEquals(TEXT_COLOR, button.textColor)
@@ -24,11 +22,9 @@ class CTInAppNotificationButtonTest: BaseTestCase() {
     }
 
     @Test
-    fun `objects should be correctly parceled`() {
+    fun `Objects should be correctly parceled`() {
         val parcel = Parcel.obtain()
-        val button = CTInAppNotificationButton()
-        val json = JSONObject(buttonJson)
-        button.initWithJSON(json)
+        val button = CTInAppNotificationButton(JSONObject(buttonJson))
 
         button.writeToParcel(parcel, 0)
         parcel.setDataPosition(0)
@@ -40,7 +36,6 @@ class CTInAppNotificationButtonTest: BaseTestCase() {
         assertEquals(button.borderColor, buttonFromParcel.borderColor)
         assertEquals(button.borderRadius, buttonFromParcel.borderRadius)
         assertEquals(button.action.type, buttonFromParcel.action.type)
-        assertEquals(button.error, buttonFromParcel.error)
     }
 
     companion object {
