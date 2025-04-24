@@ -133,3 +133,21 @@ runs:
     - name: Publish coverage in build summary # Only applicable if 'MarkdownSummaryGithub' or one of the other Markdown report types is generated
       run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY # Adjust path and filename if necessary
       shell: bash
+
+    - name: Add coverage to PR
+      uses: juliusiglesia/jacoco-report-publisher@0.0.2
+      with:
+        report-paths: |
+            clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-pushtemplates/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
+        github-token: ${{ inputs.github-token }}
+        min-overall-instructions-coverage: 75
+        min-overall-branch-coverage: 75
+        min-modified-files-instructions-coverage: 75
+        min-modified-files-branch-coverage: 75
+        title: Code Coverage
+        update-comment: true
+        pass-emoji: ':green_circle:'
+        fail-emoji: ':red_circle:'
