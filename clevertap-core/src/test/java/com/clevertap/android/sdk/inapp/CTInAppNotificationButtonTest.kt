@@ -18,7 +18,7 @@ class CTInAppNotificationButtonTest: RobolectricTest() {
         assertEquals(BACKGROUND, button.backgroundColor)
         assertEquals(BORDER_COLOR, button.borderColor)
         assertEquals(BORDER_RADIUS, button.borderRadius)
-        assertTrue(button.action.type == InAppActionType.CLOSE)
+        assertTrue(button.action?.type == InAppActionType.CLOSE)
     }
 
     @Test
@@ -35,7 +35,7 @@ class CTInAppNotificationButtonTest: RobolectricTest() {
         assertEquals(button.backgroundColor, buttonFromParcel.backgroundColor)
         assertEquals(button.borderColor, buttonFromParcel.borderColor)
         assertEquals(button.borderRadius, buttonFromParcel.borderRadius)
-        assertEquals(button.action.type, buttonFromParcel.action.type)
+        assertEquals(button.action?.type, buttonFromParcel.action?.type)
     }
 
     companion object {
