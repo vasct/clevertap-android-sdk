@@ -134,7 +134,7 @@ runs:
       run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY # Adjust path and filename if necessary
       shell: bash
 
-    - name: Add coverage to PR
+    - name: Jacoco Report Publisher
       uses: juliusiglesia/jacoco-report-publisher@0.0.2
       with:
         report-paths: |
@@ -151,3 +151,22 @@ runs:
         update-comment: true
         pass-emoji: ':green_circle:'
         fail-emoji: ':red_circle:'
+
+    - name: Setup Python
+      uses: actions/setup-python@v5.1.1
+      with:
+        python-version: '3.12'
+
+    - name: Publish JaCoCo Report in PR comments
+      uses: MoranaApps/jacoco-report@v1
+      with:
+        token: ${{ inputs.github-token }}
+        paths: |
+            clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
+            clevertap-pushtemplates/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
+        min-coverage-overall: 75
+        min-coverage-changed-files: 75
+        title: Code Coverage
+        fail-on-threshold: false
