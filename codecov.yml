@@ -1,0 +1,38 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 75%
+        threshold: 0%
+        base: auto
+        informational: true
+    patch:
+      default:
+        informational: true
+
+component_management:
+  individual_components:
+    - component_id: core
+      name: Core
+      paths:
+        - clevertap-core/**
+    - component_id: geofence
+      name: Geofence
+      paths:
+        - clevertap-geofence/**
+    - component_id: hms
+      name: HMS
+      paths:
+        - clevertap-hms/**
+    - component_id: pushtemplates
+      name: Push Templates
+      paths:
+        - clevertap-pushtemplates/**
+
+comment:
+  layout: "condensed_header, diff, condensed_files, condensed_footer, components"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+  hide_project_coverage: false
