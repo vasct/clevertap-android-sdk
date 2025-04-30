@@ -30,7 +30,7 @@ component_management:
         - clevertap-pushtemplates/**
 
 comment:
-  layout: "condensed_header, diff, condensed_files, condensed_footer, components"
+  layout: "header, diff, files, footer, components"
   behavior: default
   require_changes: false
   require_base: false
