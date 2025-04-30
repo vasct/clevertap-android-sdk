@@ -27,10 +27,10 @@ class AlertDialogPromptForSettings private constructor() {
                 R.string.ct_txt_cancel
             )
 
-            val builder = if (SDK_INT >= LOLLIPOP) AlertDialog.Builder(
+            val builder = AlertDialog.Builder(
                 activity,
                 android.R.style.Theme_Material_Light_Dialog_Alert
-            ) else AlertDialog.Builder(activity)
+            )
 
             builder.setTitle(title)
                 .setCancelable(false)
