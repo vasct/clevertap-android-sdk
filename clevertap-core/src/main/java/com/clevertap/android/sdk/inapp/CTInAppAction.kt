@@ -107,6 +107,14 @@ internal class CTInAppAction private constructor(parcel: Parcel?) : Parcelable {
                 type = CLOSE
             }
         }
+
+        @JvmStatic
+        fun createKeyValuesAction(keyValues: Map<String, String>): CTInAppAction {
+            return CTInAppAction(null).apply {
+                type = InAppActionType.KEY_VALUES
+                this.keyValues = HashMap(keyValues)
+            }
+        }
     }
 }
 
