@@ -341,7 +341,7 @@ public class InAppController implements InAppListener,
             object.put(FALLBACK_TO_NOTIFICATION_SETTINGS, showFallbackSettings);
             object.put(IS_HARD_PERMISSION_REQUEST, true);
         } catch (JSONException e) {
-            e.printStackTrace();
+            // nothing to do
         }
         promptPushPrimer(object);
     }
@@ -776,7 +776,7 @@ public class InAppController implements InAppListener,
             final InAppController inAppController
     ) {
         Logger.v(config.getAccountId(), "checking Pending Notifications");
-        if (pendingNotifications != null && !pendingNotifications.isEmpty()) {
+        if (!pendingNotifications.isEmpty()) {
             try {
                 final CTInAppNotification notification = pendingNotifications.get(0);
                 pendingNotifications.remove(0);
