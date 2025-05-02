@@ -119,9 +119,9 @@ runs:
             **/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
         min-coverage-overall: 75
         min-coverage-changed-files: 75
-        title: MoranaApps Jacoco Debug summary no modules
+        title: MoranaApps Jacoco Debug minimal
         fail-on-threshold: false
-        sensitivity: 'summary'
+        sensitivity: 'minimal'
         update-comment: true
         skip-not-changed: true
 
