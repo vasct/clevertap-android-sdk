@@ -1,7 +1,6 @@
 inputs:
   github-token:
     description: 'Github token to post JaCoCo report in a PR comment'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -91,6 +90,7 @@ runs:
 
     - name: JacocoGithubReport
       uses: madrapps/jacoco-report@v1.7.1
+      if: ${{ inputs.github-token != '' }}
       with:
           paths: |
             clevertap-core/build/reports/jacoco/**/*.xml,
