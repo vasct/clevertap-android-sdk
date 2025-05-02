@@ -106,6 +106,7 @@ runs:
     - name: Generate baseline JaCoCo report
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
+      working-directory: ./baseline
       run: ./gradlew jacocoTestReportDebug  -Pcoverage='true'
 
     - name: Set baseline report path
