@@ -106,4 +106,3 @@ runs:
         sensitivity: 'minimal'
         update-comment: true
         skip-not-changed: true
-        fail-on-threshold: false
