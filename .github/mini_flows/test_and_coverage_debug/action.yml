@@ -88,40 +88,24 @@ runs:
         name: JacocoReportDebug-clevertap-pushtemplates
         path: clevertap-pushtemplates/build/reports/jacoco
 
-    - name: JacocoGithubReport
-      if: ${{ inputs.github-token != '' }}
-      uses: madrapps/jacoco-report@v1.7.1
-      with:
-          paths: |
-            clevertap-core/build/reports/jacoco/**/*.xml,
-            clevertap-geofence/build/reports/jacoco/**/*.xml,
-            clevertap-hms/build/reports/jacoco/**/*.xml,
-            clevertap-pushtemplates/build/reports/jacoco/**/*.xml
-          token: ${{ inputs.github-token }}
-          min-coverage-overall: 75
-          min-coverage-changed-files: 75
-          title: Code Coverage Debug
-          update-comment: true
-          pass-emoji: ':green_circle:'
-          fail-emoji: ':red_circle:'
-
     - name: Setup Python
       uses: actions/setup-python@v5.1.1
       with:
         python-version: '3.12'
 
-    - name: Publish JaCoCo Report in PR comments
+    - name: Publish JaCoCo Report in PR comment
       if: ${{ inputs.github-token != '' }}
       uses: MoranaApps/jacoco-report@v1.3.0
       with:
         token: ${{ inputs.github-token }}
         paths: |
-            **/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
+            **/build/reports/jacoco/**/*.xml
         min-coverage-overall: 75
         min-coverage-changed-files: 75
-        title: MoranaApps Jacoco Debug minimal
+        title: Code Coverage Debug
         fail-on-threshold: false
         sensitivity: 'minimal'
         update-comment: true
         skip-not-changed: true
+        fail-on-threshold: false
 
