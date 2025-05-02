@@ -112,7 +112,7 @@ runs:
     - name: Set baseline report path
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
-      run: echo "BASELINE_REPORTS=baseline/**/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
+      run: echo "BASELINE_REPORTS=baseline/clevertap-*/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
 
     - name: Setup Python
       uses: actions/setup-python@v5.1.1
@@ -125,7 +125,7 @@ runs:
       with:
         token: ${{ inputs.github-token }}
         paths: |
-            **/build/reports/jacoco/**/*.xml
+            clevertap-*/build/reports/jacoco/**/*.xml
         baseline-paths: |
             ${{ env.BASELINE_REPORTS }}
         min-coverage-overall: 75
