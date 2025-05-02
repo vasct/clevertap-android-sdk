@@ -117,14 +117,9 @@ runs:
         token: ${{ inputs.github-token }}
         paths: |
             **/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
-        modules: |
-          core: clevertap-core
-          geofence: clevertap-geofence
-          hms: clevertap-hms
-          pushtemplates: clevertap-pushtemplates
         min-coverage-overall: 75
         min-coverage-changed-files: 75
-        title: MoranaApps Jacoco Debug summary
+        title: MoranaApps Jacoco Debug summary no modules
         fail-on-threshold: false
         sensitivity: 'summary'
         update-comment: true
