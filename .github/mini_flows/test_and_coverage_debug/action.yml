@@ -124,9 +124,9 @@ runs:
           pushtemplates: clevertap-pushtemplates
         min-coverage-overall: 75
         min-coverage-changed-files: 75
-        title: MoranaApps Jacoco Reporter
+        title: MoranaApps Jacoco Debug summary
         fail-on-threshold: false
-        sensitivity: 'detail'
+        sensitivity: 'summary'
         update-comment: true
         skip-not-changed: true
 
