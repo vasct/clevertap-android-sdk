@@ -1,6 +1,12 @@
 inputs:
   github-token:
     description: 'Github token to post JaCoCo report in a PR comment'
+  baseline-branch:
+    description: 'The branch to compare the JaCoCo report against'
+
+env:
+  BASELINE_REPORTS: ''
+
 runs:
   using: "composite"
   steps:
@@ -90,6 +96,23 @@ runs:
 
     #-----#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#-----
 
+    - name: Checkout baseline branch
+      if: ${{ inputs.baseline-branch != '' }}
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.baseline-branch }}
+        path: baseline
+
+    - name: Generate baseline JaCoCo report
+      if: ${{ inputs.baseline-branch != '' }}
+      shell: bash
+      run: ./gradlew jacocoTestReportDebug  -Pcoverage='true'
+
+    - name: Set baseline report path
+      if: ${{ inputs.baseline-branch != '' }}
+      shell: bash
+      run: echo "BASELINE_REPORTS=baseline/**/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
+
     - name: Setup Python
       uses: actions/setup-python@v5.1.1
       with:
@@ -102,6 +125,8 @@ runs:
         token: ${{ inputs.github-token }}
         paths: |
             **/build/reports/jacoco/**/*.xml
+        baseline-paths: |
+            ${{ env.BASELINE_REPORTS }}
         min-coverage-overall: 75
         min-coverage-changed-files: 75
         title: Code Coverage Debug
