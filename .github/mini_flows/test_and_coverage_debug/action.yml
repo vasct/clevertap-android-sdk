@@ -89,8 +89,8 @@ runs:
         path: clevertap-pushtemplates/build/reports/jacoco
 
     - name: JacocoGithubReport
-      uses: madrapps/jacoco-report@v1.7.1
       if: ${{ inputs.github-token != '' }}
+      uses: madrapps/jacoco-report@v1.7.1
       with:
           paths: |
             clevertap-core/build/reports/jacoco/**/*.xml,
@@ -104,4 +104,29 @@ runs:
           update-comment: true
           pass-emoji: ':green_circle:'
           fail-emoji: ':red_circle:'
+
+    - name: Setup Python
+      uses: actions/setup-python@v5.1.1
+      with:
+        python-version: '3.12'
+
+    - name: Publish JaCoCo Report in PR comments
+      if: ${{ inputs.github-token != '' }}
+      uses: MoranaApps/jacoco-report@v1.3.0
+      with:
+        token: ${{ inputs.github-token }}
+        paths: |
+            **/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
+        modules: |
+          core: clevertap-core
+          geofence: clevertap-geofence
+          hms: clevertap-hms
+          pushtemplates: clevertap-pushtemplates
+        min-coverage-overall: 75
+        min-coverage-changed-files: 75
+        title: MoranaApps Jacoco Reporter
+        fail-on-threshold: false
+        sensitivity: 'detail'
+        update-comment: true
+        skip-not-changed: true
 
