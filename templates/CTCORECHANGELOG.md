@@ -1,6 +1,8 @@
 ## CleverTap Android SDK CHANGE LOG
 ### Version 7.3.1 (March 27, 2025)
 
+### Test
+
 #### Bug Fixes
 * Fixes an issue where InApps were not displayed after an app upgrade
 
