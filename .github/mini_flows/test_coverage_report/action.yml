@@ -9,20 +9,20 @@ inputs:
     default: 'Code Coverage'
   test-release:
     description: 'Run tests and code coverage for release build'
-    default: false  
-
-env:
-  BASELINE_REPORTS: ''
-  GRADLE_REPORT_TASK: 'jacocoTestReportDebug'
+    default: 'false'
 
 runs:
   using: "composite"
   steps:
 
-    - name: Set Gradle release command
-      if: ${{ inputs.test-release == 'true' }}
+    - name: Set variables
       shell: bash
-      run: echo "GRADLE_REPORT_TASK=jacocoTestReportRelease" >> $GITHUB_ENV
+      run: |
+        if [ ${{ inputs.test-release }} == 'true' ]; then
+          echo "GRADLE_REPORT_TASK=jacocoTestReportRelease" >> $GITHUB_ENV
+        else
+          echo "GRADLE_REPORT_TASK=jacocoTestReportDebug" >> $GITHUB_ENV
+        fi
 
     - name: Checkout baseline branch
       if: ${{ inputs.baseline-branch != '' }}
