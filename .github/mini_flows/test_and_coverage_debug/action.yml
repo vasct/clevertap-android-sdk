@@ -5,7 +5,6 @@ inputs:
     description: 'The branch to compare the JaCoCo report against'
 
 env:
-  BASELINE_DIR: baseline
   BASELINE_REPORTS: ''
 
 runs:
@@ -102,18 +101,18 @@ runs:
       uses: actions/checkout@v3
       with:
         ref: ${{ inputs.baseline-branch }}
-        path: ${{ env.BASELINE_DIR }}
+        path: baseline
 
     - name: Generate baseline JaCoCo report
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
-      working-directory: ${{ env.BASELINE_DIR }}
+      working-directory: ./baseline
       run: ./gradlew jacocoTestReportDebug  -Pcoverage='true'
 
     - name: Set baseline report path
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
-      run: echo "BASELINE_REPORTS=$BASELINE_DIR/clevertap-*/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
+      run: echo "BASELINE_REPORTS=baseline/clevertap-*/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
 
     - name: Setup Python
       uses: actions/setup-python@v5.1.1
@@ -138,4 +137,4 @@ runs:
     - name: Cleanup baseline directory
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
-      run: rm -rf $BASELINE_DIR
+      run: rm -rf baseline
