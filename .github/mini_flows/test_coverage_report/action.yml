@@ -7,13 +7,22 @@ inputs:
   comment-title:
     description: 'The title of the comment with the JaCoCo report'
     default: 'Code Coverage'
+  test-release:
+    description: 'Run tests and code coverage for release build'
+    default: false  
 
 env:
   BASELINE_REPORTS: ''
+  GRADLE_REPORT_TASK: 'jacocoTestReportDebug'
 
 runs:
   using: "composite"
   steps:
+
+    - name: Set Gradle release command
+      if: ${{ inputs.test-release == 'true' }}
+      shell: bash
+      run: echo "GRADLE_REPORT_TASK=jacocoTestReportRelease" >> $GITHUB_ENV
 
     - name: Checkout baseline branch
       if: ${{ inputs.baseline-branch != '' }}
@@ -26,7 +35,7 @@ runs:
       if: ${{ inputs.baseline-branch != '' }}
       shell: bash
       working-directory: ./baseline
-      run: ./gradlew jacocoTestReportDebug  -Pcoverage='true'
+      run: ./gradlew $GRADLE_REPORT_TASK  -Pcoverage='true'
 
     - name: Set baseline report path
       if: ${{ inputs.baseline-branch != '' }}

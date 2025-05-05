@@ -100,3 +100,4 @@ runs:
         github-token: ${{ inputs.github-token }}
         baseline-branch: ${{ inputs.baseline-branch }}
         comment-title: 'Code Coverage Release'
+        test-release: true
