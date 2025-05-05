@@ -1,10 +1,11 @@
 inputs:
   github-token:
-    description: 'Github token to post jacoco report in PR comment'
-    required: true
-  codecov-token:
-    description: 'Codecov token to upload jacoco report'
-    required: true
+    description: 'Github token to post JaCoCo report in a PR comment'
+    required: false
+  baseline-branch:
+    description: 'The branch to compare the JaCoCo report against'
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -92,42 +93,12 @@ runs:
         name: JacocoReportDebug-clevertap-pushtemplates
         path: clevertap-pushtemplates/build/reports/jacoco
 
-    - name: JacocoGithubReport
-      uses: madrapps/jacoco-report@v1.7.1
-      with:
-          paths: |
-            clevertap-core/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
-            clevertap-geofence/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
-            clevertap-hms/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml,
-            clevertap-pushtemplates/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
-          token: ${{ inputs.github-token }}
-          min-coverage-overall: 75
-          min-coverage-changed-files: 75
-          title: Code Coverage
-          update-comment: true
-          pass-emoji: ':green_circle:'
-          fail-emoji: ':red_circle:'
+    #-----#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#-----
 
-    - name: Setup Python
-      uses: actions/setup-python@v5.1.1
+    - name: Post JaCoCo Report in PR comment
+      if: ${{ inputs.github-token != '' }}
+      uses: ./.github/mini_flows/test_coverage_report
       with:
-        python-version: '3.12'
-
-    - name: Publish JaCoCo Report in PR comments
-      uses: MoranaApps/jacoco-report@v1.3.0
-      with:
-        token: ${{ inputs.github-token }}
-        paths: |
-            **/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml
-        min-coverage-overall: 75
-        min-coverage-changed-files: 75
-        title: MoranaApps Jacoco Reporter
-        fail-on-threshold: false
-        sensitivity: 'detail'
-        update-comment: true
-
-    - name: Upload results to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ inputs.codecov-token }}
-
+        github-token: ${{ inputs.github-token }}
+        baseline-branch: ${{ inputs.baseline-branch }}
+        comment-title: 'Code Coverage Debug'

@@ -53,7 +53,7 @@ coroutines_test = "1.7.3"
 #Install Referrer
 installreferrer = "2.2"
 
-#SDK Versions
+#SDK Versions Test
 clevertap_android_sdk = "7.3.1"
 clevertap_rendermax_sdk = "1.0.3"
 clevertap_geofence_sdk = "1.4.0"
