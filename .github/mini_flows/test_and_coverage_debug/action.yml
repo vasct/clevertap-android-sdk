@@ -4,9 +4,6 @@ inputs:
   baseline-branch:
     description: 'The branch to compare the JaCoCo report against'
 
-env:
-  BASELINE_REPORTS: ''
-
 runs:
   using: "composite"
   steps:
@@ -96,45 +93,9 @@ runs:
 
     #-----#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#----------#-----
 
-    - name: Checkout baseline branch
-      if: ${{ inputs.baseline-branch != '' }}
-      uses: actions/checkout@v3
+    - name: Post JaCoCo Report in PR comment
+      uses: ./.github/mini_flows/test_coverage_report
       with:
-        ref: ${{ inputs.baseline-branch }}
-        path: baseline
-
-    - name: Generate baseline JaCoCo report
-      if: ${{ inputs.baseline-branch != '' }}
-      shell: bash
-      working-directory: ./baseline
-      run: ./gradlew jacocoTestReportDebug  -Pcoverage='true'
-
-    - name: Set baseline report path
-      if: ${{ inputs.baseline-branch != '' }}
-      shell: bash
-      run: echo "BASELINE_REPORTS=baseline/clevertap-*/build/reports/jacoco/**/*.xml" >> $GITHUB_ENV
-
-    - name: Setup Python
-      uses: actions/setup-python@v5.1.1
-      with:
-        python-version: '3.12'
-
-    - name: Publish JaCoCo Report in PR comment
-      if: ${{ inputs.github-token != '' }}
-      uses: MoranaApps/jacoco-report@v1.3.0
-      with:
-        token: ${{ inputs.github-token }}
-        paths: clevertap-*/build/reports/jacoco/**/*.xml
-        baseline-paths: ${{ env.BASELINE_REPORTS }}
-        min-coverage-overall: 75
-        min-coverage-changed-files: 75
-        title: Code Coverage Debug
-        fail-on-threshold: false
-        sensitivity: 'summary'
-        update-comment: true
-        skip-not-changed: true
-
-    - name: Cleanup baseline directory
-      if: ${{ inputs.baseline-branch != '' }}
-      shell: bash
-      run: rm -rf baseline
+        github-token: ${{ inputs.github-token }}
+        baseline-branch: ${{ inputs.baseline-branch }}
+        comment-title: 'Code Coverage Debug'
