@@ -124,8 +124,7 @@ runs:
       uses: MoranaApps/jacoco-report@v1.3.0
       with:
         token: ${{ inputs.github-token }}
-        paths: |
-            clevertap-*/build/reports/jacoco/**/*.xml
+        paths: clevertap-*/build/reports/jacoco/**/*.xml
         baseline-paths: ${{ env.BASELINE_REPORTS }}
         min-coverage-overall: 75
         min-coverage-changed-files: 75
