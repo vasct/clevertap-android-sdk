@@ -131,6 +131,6 @@ runs:
         min-coverage-changed-files: 75
         title: Code Coverage Debug
         fail-on-threshold: false
-        sensitivity: 'minimal'
+        sensitivity: 'summary'
         update-comment: true
         skip-not-changed: true
