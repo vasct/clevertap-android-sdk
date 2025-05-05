@@ -13,7 +13,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-      pull-requests: write
 
     steps:
       - name: Checkout the code from Repo
