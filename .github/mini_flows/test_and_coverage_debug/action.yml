@@ -126,8 +126,7 @@ runs:
         token: ${{ inputs.github-token }}
         paths: |
             clevertap-*/build/reports/jacoco/**/*.xml
-        baseline-paths: |
-            ${{ env.BASELINE_REPORTS }}
+        baseline-paths: ${{ env.BASELINE_REPORTS }}
         min-coverage-overall: 75
         min-coverage-changed-files: 75
         title: Code Coverage Debug
